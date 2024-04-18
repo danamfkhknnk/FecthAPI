@@ -1,0 +1,12 @@
+body {
+  text-align: center;
+  display: grid;
+  justify-content: center;
+  background-color: aliceblue;
+}
+table {
+  width: 100vh;
+}
+form {
+  margin-bottom: 10px;
+}

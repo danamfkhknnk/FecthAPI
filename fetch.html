@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kode Pos Kabupaten Cianjur</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div>
+      <h1>DAFTAR KODE POS KABUPATEN CIANJUR</h1>
+    </div>
+    <div>
+      <form>
+        <label for="search">Masukkan Nama Keluarahan :</label>
+        <input type="text" id="search" placeholder="search" />
+      </form>
+    </div>
+    <div>
+      <table border="1">
+        <tbody>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Kecamatan</th>
+              <th>Kelurahan</th>
+              <th>Kode Pos</th>
+            </tr>
+          </thead>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      const tbody = document.querySelector("tbody");
+      const searchForm = document.getElementById("search");
+      let listkode = [];
+
+      const loadData = async () => {
+        try {
+          const url = await fetch("https://kodepos-2d475.firebaseio.com/kota_kab/k71.json?print=pretty");
+          listkode = await url.json();
+          console.log(listkode);
+          loadKode(listkode);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      const loadKode = (data) => {
+        let no = 1;
+        const output = data
+          .map((list) => {
+            return (
+              `
+                  <tr>
+                      <td>` +
+              no++ +
+              `</td>
+                      <td>${list.kecamatan}</td>
+                      <td>${list.kelurahan}</td>
+                      <td>${list.kodepos}</td>
+                  </tr>
+                  `
+            );
+          })
+          .join("");
+        tbody.innerHTML = output;
+      };
+
+      searchForm.addEventListener("keyup", (e) => {
+        const value = e.target.value.toLowerCase();
+        const input = listkode.filter((data) => {
+          return data.kelurahan.toLowerCase().includes(value);
+        });
+        loadUserData(input);
+      });
+
+      loadData();
+    </script>
+  </body>
+</html>
