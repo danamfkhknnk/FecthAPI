@@ -13,7 +13,7 @@
     </div>
     <div>
       <form>
-        <label for="search">Masukkan Nama Keluarahan :</label>
+        <label for="search">Masukkan Nama Keluarahan</label>
         <input type="text" id="search" placeholder="search" />
       </form>
     </div>
@@ -35,32 +35,32 @@
     <script>
       const tbody = document.querySelector("tbody");
       const searchForm = document.getElementById("search");
-      let listkode = [];
+      let listKode = [];
 
       const loadData = async () => {
         try {
           const url = await fetch("https://kodepos-2d475.firebaseio.com/kota_kab/k71.json?print=pretty");
-          listkode = await url.json();
-          console.log(listkode);
-          loadKode(listkode);
+          listKode = await url.json();
+          console.log(listKode);
+          loadUserData(listKode);
         } catch (err) {
           console.log(err);
         }
       };
 
-      const loadKode = (data) => {
+      const loadUserData = (data) => {
         let no = 1;
         const output = data
-          .map((list) => {
+          .map((el) => {
             return (
               `
                   <tr>
                       <td>` +
               no++ +
               `</td>
-                      <td>${list.kecamatan}</td>
-                      <td>${list.kelurahan}</td>
-                      <td>${list.kodepos}</td>
+                      <td>${el.kecamatan}</td>
+                      <td>${el.kelurahan}</td>
+                      <td>${el.kodepos}</td>
                   </tr>
                   `
             );
@@ -71,7 +71,7 @@
 
       searchForm.addEventListener("keyup", (e) => {
         const value = e.target.value.toLowerCase();
-        const input = listkode.filter((data) => {
+        const input = listKode.filter((data) => {
           return data.kelurahan.toLowerCase().includes(value);
         });
         loadUserData(input);
